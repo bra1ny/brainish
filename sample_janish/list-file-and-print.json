@@ -1,0 +1,28 @@
+{
+  "id": "main",
+  "type": "group",
+  "submodule": [
+    {
+      "id": "list_file_1",
+      "type": "list_file",
+      "input": {
+        "path": "."
+      }
+    }, {
+      "id": "loop_file_list_1",
+      "type": "loop_file_list",
+      "input": {
+        "file_list": "list_file_1__file_list"
+      },
+      "submodule": {
+        "loop_body": {
+          "id": "print_1",
+          "type": "print",
+          "input": {
+            "to_print": "$loop_file_list_1__file_name"
+          }
+        }
+      }
+    }
+  ]
+}
