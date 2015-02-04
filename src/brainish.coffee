@@ -1,11 +1,21 @@
+error = (err) ->
+  process.stderr.write(err + "\n")
+
+
 compile = (janish) ->
-  bash = ""
-  switch janish["type"]
-    when "group"
-      bash += "group\n"
+  bash = "# Janish begins: " + janish["id"] + " (" + janish["type"] + ")\n"
+  try
+    illusion = require "./illusions/" + janish["type"]
+    bash += illusion(janish)
+  catch err
+    if err.code == "MODULE_NOT_FOUND"
+      bash += "INVALID_ILLUSION\n"
     else
-      bash += "NOT IMPLEMENTED YET\n"
-  return bash
+      console.log err.stack
+      throw Error(err.message)
+  bash += "# Janish ends: " + janish["id"] + "\n"
+  bash
+
 
 exports.compile = compile
 
@@ -24,5 +34,9 @@ exports.run = () ->
   stdin.on 'end', =>
     inputJson = inputChunks.join()
     janish = JSON.parse(inputJson)
-    outputBash = compile(janish)
-    stdout.write(outputBash)
+    try
+      outputBash = compile(janish)
+      stdout.write(outputBash)
+    catch err
+      error "Error during compilation:"
+      error err.message

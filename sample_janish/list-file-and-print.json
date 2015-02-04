@@ -9,17 +9,17 @@
         "path": "."
       }
     }, {
-      "id": "loop_file_list_1",
-      "type": "loop_file_list",
+      "id": "for_each_1",
+      "type": "for_each",
       "input": {
-        "file_list": "list_file_1__file_list"
+        "list": "$list_file_1__file_list"
       },
       "submodule": {
         "loop_body": {
           "id": "print_1",
           "type": "print",
           "input": {
-            "to_print": "$loop_file_list_1__file_name"
+            "to_print": "$for_each_1_1__iterator"
           }
         }
       }
