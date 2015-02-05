@@ -2,7 +2,7 @@ error = (err) ->
   process.stderr.write(err + "\n")
 
 
-compile = (janish) ->
+j2b = (janish) ->
   bash = "# Janish begins: " + janish["id"] + " (" + janish["type"] + ")\n"
   try
     illusion = require "./illusions/" + janish["type"]
@@ -17,7 +17,11 @@ compile = (janish) ->
   bash
 
 
-exports.compile = compile
+exports.j2b = j2b
+
+
+compile_janish = (janish) ->
+  j2b(janish)
 
 
 exports.run = () ->
@@ -35,7 +39,7 @@ exports.run = () ->
     inputJson = inputChunks.join()
     janish = JSON.parse(inputJson)
     try
-      outputBash = compile(janish)
+      outputBash = compile_janish(janish)
       stdout.write(outputBash)
     catch err
       error "Error during compilation:"

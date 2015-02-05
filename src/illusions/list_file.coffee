@@ -1,4 +1,4 @@
-compile = require("../brainish").compile
+compile = require("../brainish").j2b
 helper = require("../helper")
 
 module.exports = (janish) ->
