@@ -7,7 +7,7 @@
     },
     "print": {
       "input": ["content"],
-      "bash": "echo $_input(content)\n"
+      "bash": "echo \"_input(content)\"\n"
     },
     "list_file": {
       "input": ["path"],
@@ -20,7 +20,7 @@
         "body": "iterator"
       },
       "bash":
-"for _var(iterator) in $_input(list); do\n    _sub(body)done;\n"
+"for _var(iterator) in _input(list); do\n    _sub(body)done;\n"
     }
   },
   "janish": [
@@ -37,13 +37,20 @@
         "list": "#list_file_1.file_list"
       },
       "sub": {
-        "body": {
+        "body": [{
+          "id": "print_1",
+          "illusion": "print",
+          "input": {
+            "content": "There is a file: "
+          }
+        },
+          {
           "id": "print_1",
           "illusion": "print",
           "input": {
             "content": "#for_each_1.iterator"
           }
-        }
+        }]
       }
     }
   ]

@@ -13,7 +13,7 @@ process_input = (input_list) ->
   for input_name, input_value of input_list
     if input_value[0] == "#"
       input_value_pieces = input_value.substring(1).split(".")
-      input_value = get_var(input_value_pieces[0], input_value_pieces[1])
+      input_value = "${" + get_var(input_value_pieces[0], input_value_pieces[1]) + "}"
     input_list[input_name] = input_value
   input_list
 
