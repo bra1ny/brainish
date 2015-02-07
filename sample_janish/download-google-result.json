@@ -3,11 +3,16 @@
     "google_search_url": {
       "input": ["key_words"],
       "output": ["url"],
-      "bash": "_var(url)=\"www.google.com\"\n"
+      "bash": "_var(replaced)=\"_input(key_words)\"\n_var(replaced)=${_var(replaced)// /+}\n_var(url)=\"https://www.google.com/search?q=\"$_var(replaced)\n"
+    },
+    "google_search": {
+      "input": ["url"],
+      "output": ["output"],
+      "bash": "_var(result)=$(wget -U firefox -O - _input(url) 2>/dev/null | grep -o '<a href=\"/url?q=[^\"'\"'\"']*&amp;sa' | sed -e 's/^<a href=[\"'\"'\"']\\\/url?q=//' -e 's/&amp;sa$//')\n"
     },
     "print": {
       "input": ["content"],
-      "bash": "echo $_input(content)\n"
+      "bash": "echo \"_input(content)\"\n"
     }
   },
   "janish": [
@@ -23,6 +28,20 @@
       "illusion": "print",
       "input": {
         "content": "#google_search_url_1.url"
+      }
+    },
+    {
+      "id": "google_search_1",
+      "illusion": "google_search",
+      "input": {
+        "url": "#google_search_url_1.url"
+      }
+    },
+    {
+      "id": "print_2",
+      "illusion": "print",
+      "input": {
+        "content": "#google_search_1.result"
       }
     }
   ]
