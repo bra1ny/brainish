@@ -1,0 +1,50 @@
+{
+  "illusion": {
+    "google_search_url": {
+      "input": ["key_words"],
+      "output": ["url"],
+      "bash": "_var(url)=\"www.google.com\"\n"
+    },
+    "print": {
+      "input": ["content"],
+      "bash": "echo $_input(content)\n"
+    },
+    "list_file": {
+      "input": ["path"],
+      "output": ["file_list"],
+      "bash": "_var(file_list)=$(ls _input(path))\n"
+    },
+    "for_each": {
+      "input": ["list"],
+      "sub": {
+        "body": "iterator"
+      },
+      "bash":
+"for _var(iterator) in $_input(list); do\n    _sub(body)done;\n"
+    }
+  },
+  "janish": [
+    {
+      "id": "list_file_1",
+      "illusion": "list_file",
+      "input": {
+        "path": "."
+      }
+    }, {
+      "id": "for_each_1",
+      "illusion": "for_each",
+      "input": {
+        "list": "#list_file_1.file_list"
+      },
+      "sub": {
+        "body": {
+          "id": "print_1",
+          "illusion": "print",
+          "input": {
+            "content": "#for_each_1.iterator"
+          }
+        }
+      }
+    }
+  ]
+}

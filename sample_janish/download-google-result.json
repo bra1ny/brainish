@@ -1,0 +1,29 @@
+{
+  "illusion": {
+    "google_search_url": {
+      "input": ["key_words"],
+      "output": ["url"],
+      "bash": "_var(url)=\"www.google.com\"\n"
+    },
+    "print": {
+      "input": ["content"],
+      "bash": "echo $_input(content)\n"
+    }
+  },
+  "janish": [
+    {
+      "id": "google_search_url_1",
+      "illusion": "google_search_url",
+      "input": {
+        "key_words": "hello world"
+      }
+    },
+    {
+      "id": "print_1",
+      "illusion": "print",
+      "input": {
+        "content": "#google_search_url_1.url"
+      }
+    }
+  ]
+}
